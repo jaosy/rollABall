@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private int count; // only available in this script
     public Text countText;
     public Text winText;
+    private AudioSource pickupSfx;
 
     // Start is called before the first frame update
     void Start() 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
         count = 0; 
         updateCountText();
         winText.text = "";
+        pickupSfx = GetComponent<AudioSource>();
     }
 
     // Performed before doing any physics calculations
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
-     // this function will be called when the player object touches
+    // this function will be called when the player object touches
     // the trigger Collider object called "other"
     void OnTriggerEnter(Collider other) 
     {
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Pick Up"))
         {
+            pickupSfx.Play();
             other.gameObject.SetActive(false);
             count++;
             updateCountText();
